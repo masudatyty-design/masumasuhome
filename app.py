@@ -7,6 +7,17 @@ from datetime import datetime
 # ==========================================
 st.set_page_config(page_title="偽MBTI性格診断 by 増田拓真", page_icon="🎭", layout="centered")
 
+# ラジオボタンの複数行テキストを「上揃え」にするデザイン調整
+st.markdown("""
+<style>
+/* 選択肢（label）の要素を上揃え（flex-start）にする */
+.stRadio label {
+    align-items: flex-start !important;
+    padding-top: 2px !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
 # スマホ表示をきれいにするためのデザイン調整
 st.markdown("""
 <style>
