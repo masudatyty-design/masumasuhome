@@ -7,6 +7,20 @@ from datetime import datetime
 # ==========================================
 st.set_page_config(page_title="偽MBTI性格診断 by 増田拓真", page_icon="🎭", layout="centered")
 
+# スマホ表示をきれいにするためのデザイン調整
+st.markdown("""
+<style>
+/* 選択肢や文字が狭い画面でも綺麗に折り返されるようにする */
+p, span, label, div {
+    word-break: break-word !important;
+}
+/* ラジオボタンの文字サイズをスマホで見やすい大きさに調整 */
+.stRadio label {
+    font-size: 14px !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
 def save_to_sheet(user_name, result_code, type_name, scores, user_answers):
     """Google Apps Script (GAS) 経由でスプレッドシートに直接書き込む"""
     
