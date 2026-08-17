@@ -19,11 +19,11 @@ def save_to_sheet(user_name, result_code, type_name, scores, user_answers):
     
     # 新しく取得したIDに基づいた紐付け
     payload = {
-        "entry.2064972740": user_name if user_name else "匿名",  # ニックネーム
-        "entry.1039865405": result_code,                       # 判定コード
-        "entry.600989065": type_name,                          # タイプ名
-        "entry.1350860533": score_str,                         # スコア詳細
-        "entry.55018671": answer_str                           # 回答詳細
+        "entry.708944330": user_name if user_name else "匿名",  # ニックネーム
+        "entry.178113669": result_code,                       # 判定コード
+        "entry.1172604534": type_name,                          # タイプ名
+        "entry.1825111366": score_str,                         # スコア詳細
+        "entry.57555750": answer_str                           # 回答詳細
     }
     
     try:
