@@ -1,46 +1,35 @@
 import streamlit as st
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
+import requests
 from datetime import datetime
 
 # ==========================================
-# 0. ページ設定 & スプレッドシート接続
+# 0. ページ設定 & Googleフォーム自動保存の設定
 # ==========================================
 st.set_page_config(page_title="偽MBTI性格診断 by 増田拓真", page_icon="🎭", layout="centered")
 
-def get_google_sheet():
-    """Streamlit Secretsから安全に認証してシートを取得"""
-    try:
-        creds_dict = dict(st.secrets["gcp_service_account"])
-        scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-        creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
-        client = gspread.authorize(creds)
-        sheet = client.open_by_key(st.secrets["SPREADSHEET_ID"]).sheet1
-        return sheet
-    except Exception as e:
-        return None
-
 def save_to_sheet(user_name, result_code, type_name, scores, user_answers):
-    """スプレッドシートへの追記実行"""
-    sheet = get_google_sheet()
-    if sheet is not None:
-        try:
-            now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            row = [
-                now_str,
-                user_name if user_name else "匿名",
-                result_code,
-                type_name,
-                scores["明"], scores["暗"],
-                scores["ボ"], scores["ツ"],
-                scores["攻"], scores["防"],
-                scores["常"], scores["奇"]
-            ]
-            for ans in user_answers:
-                row.append(ans if ans else "未回答")
-            sheet.append_row(row)
-        except Exception as e:
-            st.warning("⚠️ データの自動保存で一時的な通信エラーが発生しました。（結果は正常に表示されています）")
+    """Googleフォーム経由で自動的にスプレッドシートに書き込む"""
+    
+    # 取得した送信専用URL
+    url = "https://docs.google.com/forms/d/e/1FAIpQLSf414G421JqC2k1r5H1Z31v1I5f8E_8x79_K_9b5Q4E2E6R9Q/formResponse"
+    
+    # スコアと回答を見やすく整理
+    score_str = f"明:{scores['明']} 暗:{scores['暗']} ボ:{scores['ボ']} ツ:{scores['ツ']} 攻:{scores['攻']} 防:{scores['防']} 常:{scores['常']} 奇:{scores['奇']}"
+    answer_str = " / ".join([f"Q{i+1}:{ans}" for i, ans in enumerate(user_answers)])
+    
+    # フォームの各項目ID（entry.数字）にデータを割り当て
+    payload = {
+        "entry.1492021677": user_name if user_name else "匿名",  # ニックネーム
+        "entry.1351187428": result_code,                       # 判定コード
+        "entry.1802956272": type_name,                         # タイプ名
+        "entry.1691238914": score_str,                         # スコア詳細
+        "entry.1042730386": answer_str                         # 回答詳細
+    }
+    
+    try:
+        requests.post(url, data=payload)
+    except Exception as e:
+        pass # 通信エラーが起きてもユーザーの画面を止めない
 
 # ==========================================
 # 1. 16タイプ解説データ
@@ -51,7 +40,7 @@ TYPE_DESCRIPTIONS = {
     "1367": "【ネタのときのエバース佐々木】\n明るく天然なユーモアもあるが、実は初対面で自分からグイグイ行くのは苦手。抜けている雰囲気はあるが、人間関係の機微も感じ取ることができる。",
     "1368": "【ランジャタイ 国崎】\n攻撃性よりも自分の創造力のみでウケを取れる存在だが、ロジックは不明。独特の空気感があり、刺さる・刺さらないがはっきりしている。",
     "1457": "【有吉弘行】\n明るさと攻撃性を併せ持つ。本当に繊細な人間とは食い合わせが悪い。場を仕切ったり、話をまとめることもできるMCタイプ",
-    "1458": "【霜降り明星　粗品】\n過剰に自分を明るくチューンナップすることも可能なサイコパス。ワードセンスもあり、場をまとめることもできるので、MCなども上手く自分をブランディングすることもできる。",
+    "1458": "【東京ホテイソン たける】\n明るく自分をチューンナップすることも可能なサイコパス。場をまとめることもできるので、空気感を作り出すこともできる。",
     "1467": "【令和ロマン ケムリ】\nノリがよく、シンプルなワードでボケを拾ってくれる。グループの潤滑油的な存在であり、その優しさで上下から好かれる。しかし、腹を割って話すことができる人間が多いわけではない。",
     "1468": "【千鳥 ノブ】\n明るいが、ツッコミ気質なのでカウンターを狙っているタイプ。ワードセンスがあり、ツッコミが注目される人物。若干サイコパスな部分もあり、線引きをミスることも。",
     "2357": "【ハリウッドザコシショウ】\n落ち着いているが、実はボケを考え込んでいる。引き出してくれるタイプのツッコミといることで輝く。線引きがしっかりしているので、実はきちんと考えてから発言するタイプ。",
@@ -117,7 +106,7 @@ def get_diff_comment(axis_winner, diff):
     return ""
 
 # ==========================================
-# 3. 質問データ（全15問・均等調整版）
+# 3. 質問データ（全15問）
 # ==========================================
 QUESTIONS_DATA = [
     {
@@ -307,6 +296,7 @@ if submitted:
 
         result_code = f"{axis1}{axis2}{axis3}{axis4}"
         description = TYPE_DESCRIPTIONS.get(result_code, "解説が見つかりませんでした。")
+        type_name = description.split('】')[0].replace("【", "")
         
         pct_m = round((scores["明"] / (scores["明"] + scores["暗"])) * 100) if (scores["明"] + scores["暗"]) > 0 else 50
         pct_a = 100 - pct_m
@@ -317,8 +307,8 @@ if submitted:
         pct_j = round((scores["常"] / (scores["常"] + scores["奇"])) * 100) if (scores["常"] + scores["奇"]) > 0 else 50
         pct_ki = 100 - pct_j
 
-        # スプレッドシートへ自動保存
-        save_to_sheet(user_name, result_code, description.split('】')[0].replace("【", ""), scores, user_answers)
+        # Googleフォーム経由でスプレッドシートへ自動送信
+        save_to_sheet(user_name, result_code, type_name, scores, user_answers)
 
         display_name = f"{user_name} さん" if user_name else "あなた"
         st.success("🎉 診断が完了しました！")
