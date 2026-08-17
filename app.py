@@ -8,26 +8,24 @@ from datetime import datetime
 st.set_page_config(page_title="偽MBTI性格診断 by 増田拓真", page_icon="🎭", layout="centered")
 
 def save_to_sheet(user_name, result_code, type_name, scores, user_answers):
-    """Googleフォーム経由で自動的にスプレッドシートに書き込む"""
+    """Google Apps Script (GAS) 経由でスプレッドシートに直接書き込む"""
     
-    # 修正した送信専用URL
-    url = "https://docs.google.com/forms/d/e/1FAIpQLSeL1rE-Qc9G2-W8w8Q14T0zY45p5O12eG8gL41c0A9x52467A/formResponse"
+    # ⚠️ 下の "..." のところに、取得した長いURLをそのまま貼り付けてください
+    url = "https://script.google.com/macros/s/AKfycbyDHVleoB8JLzDpsTM-ip-9pcF62ek-a-DEQX5LwXBmvAdl4KuX2bKISPSstgk4Xedb/exec"
     
-    # スコアと回答を見やすく整理
     score_str = f"明:{scores['明']} 暗:{scores['暗']} ボ:{scores['ボ']} ツ:{scores['ツ']} 攻:{scores['攻']} 防:{scores['防']} 常:{scores['常']} 奇:{scores['奇']}"
     answer_str = " / ".join([f"Q{i+1}:{ans}" for i, ans in enumerate(user_answers)])
     
-    # 新しく取得したIDに基づいた紐付け
     payload = {
-        "entry.708944330": user_name if user_name else "匿名",  # ニックネーム
-        "entry.178113669": result_code,                       # 判定コード
-        "entry.1172604534": type_name,                          # タイプ名
-        "entry.1825111366": score_str,                         # スコア詳細
-        "entry.57555750": answer_str                           # 回答詳細
+        "user_name": user_name if user_name else "匿名",
+        "result_code": result_code,
+        "type_name": type_name,
+        "scores": score_str,
+        "answers": answer_str
     }
     
     try:
-        requests.post(url, data=payload)
+        requests.post(url, json=payload)
     except Exception as e:
         pass
 
