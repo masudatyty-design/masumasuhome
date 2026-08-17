@@ -11,7 +11,6 @@ def save_to_sheet(user_name, result_code, type_name, scores, user_answers):
     """Googleフォーム経由で自動的にスプレッドシートに書き込む"""
     
     # 修正した送信専用URL
-    url = # 修正：d/e/ を含む正しいプログラム用URLに差し替えます
     url = "https://docs.google.com/forms/d/e/1FAIpQLSeL1rE-Qc9G2-W8w8Q14T0zY45p5O12eG8gL41c0A9x52467A/formResponse"
     
     # スコアと回答を見やすく整理
