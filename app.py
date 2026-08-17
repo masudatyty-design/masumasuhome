@@ -276,7 +276,8 @@ QUESTIONS_DATA = [
 # ==========================================
 # 4. Streamlit UI 構築
 # ==========================================
-st.title(" 偽MBTI性格診断 <br> by 増田拓真")
+# 中央寄せで2行に分ける場合
+st.markdown("<h1 style='text-align: center;'> 偽MBTI性格診断<br>by 増田拓真</h1>", unsafe_allow_html=True)
 st.caption("※とんでもない結果が出たからといって、あなたの人格の素晴らしさは揺るがない。これからも増田拓真をよろしく。")
 st.markdown("---")
 
