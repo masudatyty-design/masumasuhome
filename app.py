@@ -11,7 +11,7 @@ def save_to_sheet(user_name, result_code, type_name, scores, user_answers):
     """Googleフォーム経由で自動的にスプレッドシートに書き込む"""
     
     # 取得した送信専用URL
-    url = "https://docs.google.com/forms/d/e/1FAIpQLSf414G421JqC2k1r5H1Z31v1I5f8E_8x79_K_9b5Q4E2E6R9Q/formResponse"
+    url = "https://docs.google.com/forms/d/e/1FAIpQLScbNll4a2lDuez33rivnGSSSnoiwNWFHk5kJASunxJG-142XA/viewform?usp=dialog"
     
     # スコアと回答を見やすく整理
     score_str = f"明:{scores['明']} 暗:{scores['暗']} ボ:{scores['ボ']} ツ:{scores['ツ']} 攻:{scores['攻']} 防:{scores['防']} 常:{scores['常']} 奇:{scores['奇']}"
