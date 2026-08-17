@@ -19,11 +19,11 @@ def save_to_sheet(user_name, result_code, type_name, scores, user_answers):
     
     # フォームの各項目ID（entry.数字）にデータを割り当て
     payload = {
-        "entry.1492021677": user_name if user_name else "匿名",  # ニックネーム
-        "entry.1351187428": result_code,                       # 判定コード
-        "entry.1802956272": type_name,                         # タイプ名
-        "entry.1691238914": score_str,                         # スコア詳細
-        "entry.1042730386": answer_str                         # 回答詳細
+        "entry.708944330": user_name if user_name else "匿名",  # ニックネーム
+        "entry.1781136694": result_code,                       # 判定コード
+        "entry.1172604534": type_name,                         # タイプ名
+        "entry.182511136": score_str,                         # スコア詳細
+        "entry.575557501": answer_str                         # 回答詳細
     }
     
     try:
