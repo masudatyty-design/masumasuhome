@@ -270,13 +270,19 @@ user_name = st.text_input("👤 ニックネーム / お名前を入力してく
 user_answers = []
 with st.form("diagnosis_form"):
     for idx, q_info in enumerate(QUESTIONS_DATA):
+        # 質問文を独立して大きく見やすく表示
+        st.markdown(f"**{q_info['question']}**")
+        
+        # ラジオボタンの二重ラベルを消して、選択肢だけをスッキリ配置
         ans = st.radio(
-            label=f"**{q_info['question']}**",
+            label="選択肢",
             options=list(q_info["options"].keys()),
             index=None,
-            key=f"q_{idx}"
+            key=f"q_{idx}",
+            label_visibility="collapsed"
         )
         user_answers.append(ans)
+        st.markdown("---") # 質問ごとに綺麗な区切り線を挟む
     
     submitted = st.form_submit_button("診断結果を判定する 🚀", use_container_width=True)
 
