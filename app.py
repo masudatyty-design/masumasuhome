@@ -10,26 +10,27 @@ st.set_page_config(page_title="偽MBTI性格診断 by 増田拓真", page_icon="
 def save_to_sheet(user_name, result_code, type_name, scores, user_answers):
     """Googleフォーム経由で自動的にスプレッドシートに書き込む"""
     
-    # 取得した送信専用URL
-    url = "https://docs.google.com/forms/d/e/1FAIpQLScbNll4a2lDuez33rivnGSSSnoiwNWFHk5kJASunxJG-142XA/viewform?usp=dialog"
+    # 修正した送信専用URL
+    url = "# 修正：d/e/ を含む正しいプログラム用URLに差し替えます
+    url = "https://docs.google.com/forms/d/e/1FAIpQLSeL1rE-Qc9G2-W8w8Q14T0zY45p5O12eG8gL41c0A9x52467A/formResponse"
     
     # スコアと回答を見やすく整理
     score_str = f"明:{scores['明']} 暗:{scores['暗']} ボ:{scores['ボ']} ツ:{scores['ツ']} 攻:{scores['攻']} 防:{scores['防']} 常:{scores['常']} 奇:{scores['奇']}"
     answer_str = " / ".join([f"Q{i+1}:{ans}" for i, ans in enumerate(user_answers)])
     
-    # フォームの各項目ID（entry.数字）にデータを割り当て
+    # 新しく取得したIDに基づいた紐付け
     payload = {
-        "entry.708944330": user_name if user_name else "匿名",  # ニックネーム
-        "entry.1781136694": result_code,                       # 判定コード
-        "entry.1172604534": type_name,                         # タイプ名
-        "entry.182511136": score_str,                         # スコア詳細
-        "entry.575557501": answer_str                         # 回答詳細
+        "entry.2064972740": user_name if user_name else "匿名",  # ニックネーム
+        "entry.1039865405": result_code,                       # 判定コード
+        "entry.600989065": type_name,                          # タイプ名
+        "entry.1350860533": score_str,                         # スコア詳細
+        "entry.55018671": answer_str                           # 回答詳細
     }
     
     try:
         requests.post(url, data=payload)
     except Exception as e:
-        pass # 通信エラーが起きてもユーザーの画面を止めない
+        pass
 
 # ==========================================
 # 1. 16タイプ解説データ
