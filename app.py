@@ -371,8 +371,8 @@ if submitted:
 # ==========================================
 # 16タイプ分布早見表の表示
 # ==========================================
-        st.markdown("---")
-        st.markdown("### 🧩 16タイプ分布早見表")
+st.markdown("---")
+st.markdown("### 🧩 16タイプ分布早見表")
 
 table_html = """
         <style>
@@ -438,4 +438,4 @@ table_html = """
           </tbody>
         </table>
         """
-        st.markdown(table_html, unsafe_allow_html=True)
+st.markdown(table_html, unsafe_allow_html=True)
