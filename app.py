@@ -368,36 +368,74 @@ if submitted:
         st.write(f"- **【ボツ】** {get_diff_comment(win_2, diff_2)}")
         st.write(f"- **【攻防】** {get_diff_comment(win_3, diff_3)}")
         st.write(f"- **【常奇】** {get_diff_comment(win_4, diff_4)}")
+# ==========================================
+# 16タイプ分布早見表の表示
+# ==========================================
+        st.markdown("---")
+        st.markdown("### 🧩 16タイプ分布早見表")
 
-st.markdown("### 🧩 16タイプ分布早見表")
+table_html = """
+        <style>
+        .mbti-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: center;
+        }
+        .mbti-table th {
+            background-color: #f0f2f6;
+            color: #31333F;
+            font-weight: bold;
+            padding: 8px 4px;
+            border: 1px solid #ddd;
+        }
+        .mbti-table td {
+            padding: 8px 4px;
+            border: 1px solid #ddd;
+            vertical-align: middle;
+        }
+        </style>
 
-st.markdown("""
-<style>
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-    text-align: center;
-}
-th {
-    background-color: #f0f2f6;
-    color: #31333F;
-    font-weight: bold;
-    padding: 8px 4px;
-    border: 1px solid #ddd;
-}
-td {
-    padding: 8px 4px;
-    border: 1px solid #ddd;
-    vertical-align: middle;
-}
-</style>
-
-| | 攻・常 (57)<br>攻撃的・常識人 | 攻・奇 (58)<br>防御的・異端児 | 防・常 (67)<br>防御的・常識人 | 防・奇 (68)<br>攻撃的・異端児 |
-| :--- | :--- | :--- | :--- | :--- |
-| **明・ボ (13)**<br>明るい・ボケ | **【1357】**<br>レインボー<br>じゃんぼ | **【1358】**<br>令和ロマン<br>くるま | **【1367】**<br>エバース<br>佐々木 | **【1368】**<br>ランジャタイ<br>国崎 |
-| **明・ツ (14)**<br>明るい・ツッコミ | **【1457】**<br>有吉弘行 | **【1458】**<br>霜降り明星<br>粗品 | **【1467】**<br>令和ロマン<br>ケムリ | **【1468】**<br>千鳥<br>ノブ |
-| **暗・ボ (23)**<br>暗い・ボケ | **【2357】**<br>ハリウッド<br>ザコシショウ | **【2358】**<br>真空ジェシカ<br>川北 | **【2367】**<br>千鳥<br>大吾(MC) | **【2368】**<br>めぞん<br>吉野 |
-| **暗・ツ (24)**<br>暗い・ツッコミ | **【2457】**<br>マツコ・<br>デラックス | **【2458】**<br>ウエストランド<br>井口 | **【2467】**<br>トンツカタン<br>森本 | **【2468】**<br>真空ジェシカ<br>ガク |
-
-""", unsafe_allow_html=True)
+        <table class="mbti-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>攻撃的な常人 <br>(57)</th>
+              <th>攻撃的な奇人<br> (58)</th>
+              <th>防御的な常人 <br>(67)</th>
+              <th>防御的な奇人 <br>(68)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>明るいボケ<br> (13)</th>
+              <td><strong>【1357】</strong><br>レインボー<br>じゃんぼ</td>
+              <td><strong>【1358】</strong><br>令和ロマン<br>くるま</td>
+              <td><strong>【1367】</strong><br>エバース<br>佐々木</td>
+              <td><strong>【1368】</strong><br>ランジャタイ<br>国崎</td>
+            </tr>
+            <tr>
+              <th>明るいツッコミ<br> (14)</th>
+              <td><strong>【1457】</strong><br>有吉弘行</td>
+              <td><strong>【1458】</strong><br>霜降り明星<br>粗品</td>
+              <td><strong>【1467】</strong><br>令和ロマン<br>ケムリ</td>
+              <td><strong>【1468】</strong><br>千鳥<br>ノブ</td>
+            </tr>
+            <tr>
+              <th>暗いボケ<br> (23)</th>
+              <td><strong>【2357】</strong><br>ハリウッド<br>ザコシショウ</td>
+              <td><strong>【2358】</strong><br>真空ジェシカ<br>川北</td>
+              <td><strong>【2367】</strong><br>千鳥<br>大吾(MC)</td>
+              <td><strong>【2368】</strong><br>めぞん<br>吉野</td>
+            </tr>
+            <tr>
+              <th>暗いツッコミ <br>(24)</th>
+              <td><strong>【2457】</strong><br>マツコ・<br>デラックス</td>
+              <td><strong>【2458】</strong><br>ウエストランド<br>井口</td>
+              <td><strong>【2467】</strong><br>トンツカタン<br>森本</td>
+              <td><strong>【2468】</strong><br>真空ジェシカ<br>ガク</td>
+            </tr>
+          </tbody>
+        </table>
+        """
+        st.markdown(table_html, unsafe_allow_html=True)
