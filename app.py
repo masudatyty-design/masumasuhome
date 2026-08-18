@@ -375,7 +375,7 @@ if submitted:
  st.markdown("---")
  st.markdown("### 🧩 16タイプ分布早見表")
 
-table_html = """
+ table_html = """
         <style>
         .mbti-table {
             width: 100%;
