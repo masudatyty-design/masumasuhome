@@ -412,7 +412,7 @@ if submitted:
               <th>明るいボケ<br> (13)</th>
               <td><strong>【1357】</strong><br>レインボー<br>じゃんぼ</td>
               <td><strong>【1358】</strong><br>令和ロマン<br>くるま</td>
-              <td><strong>【1367】</strong><br>エバース<br>佐々木</td>
+              <td><strong>【1367】</strong><br>エバース<br>佐々木（ネタ内）</td>
               <td><strong>【1368】</strong><br>ランジャタイ<br>国崎</td>
             </tr>
             <tr>
