@@ -332,13 +332,21 @@ if submitted:
         description = TYPE_DESCRIPTIONS.get(result_code, "解説が見つかりませんでした。")
         type_name = description.split('】')[0].replace("【", "")
         
-        pct_m = round((scores["明"] / (scores["明"] + scores["暗"])) * 100) if (scores["明"] + scores["暗"]) > 0 else 50
+        # 差分を強調してパーセントを計算（差を1.5倍にしてメリハリをつける）
+        diff_m = scores["明"] - scores["暗"]
+        pct_m = max(0, min(100, 50 + int(diff_m * 1.5)))
         pct_a = 100 - pct_m
-        pct_b = round((scores["ボ"] / (scores["ボ"] + scores["ツ"])) * 100) if (scores["ボ"] + scores["ツ"]) > 0 else 50
+
+        diff_b = scores["ボ"] - scores["ツ"]
+        pct_b = max(0, min(100, 50 + int(diff_b * 1.5)))
         pct_t = 100 - pct_b
-        pct_k = round((scores["攻"] / (scores["攻"] + scores["防"])) * 100) if (scores["攻"] + scores["防"]) > 0 else 50
+
+        diff_k = scores["攻"] - scores["防"]
+        pct_k = max(0, min(100, 50 + int(diff_k * 1.5)))
         pct_d = 100 - pct_k
-        pct_j = round((scores["常"] / (scores["常"] + scores["奇"])) * 100) if (scores["常"] + scores["奇"]) > 0 else 50
+
+        diff_j = scores["常"] - scores["奇"]
+        pct_j = max(0, min(100, 50 + int(diff_j * 1.5)))
         pct_ki = 100 - pct_j
 
         # Googleフォーム経由でスプレッドシートへ自動送信
